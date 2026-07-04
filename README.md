@@ -6,11 +6,20 @@ This project is a practical tutorial for learning how Python can act like a ligh
 
 The repo is intentionally small and educational. It is not a production audio engine, DAW, ML pipeline, or plugin development project.
 
----
+## Start Here
+
+Activate the audio environment, then open the notebook:
+
+```bash
+tonarpy
+jupyter lab notebooks/01_pedalboard_surge_fundamentals.ipynb
+```
+
+The notebook is the primary learning artifact. It is written like a lab manual: each section starts from a concrete problem, introduces only the API needed to solve that problem, then checks the result with shapes, metrics, plots, saved files, or audio playback.
 
 ## Goals
 
-This repo is for learning the fundamentals of programmatic audio rendering:
+This repo teaches the fundamentals of programmatic audio rendering:
 
 - Representing audio as NumPy arrays
 - Understanding sample rate, frames, channels, RMS, peak, and dBFS
@@ -23,8 +32,6 @@ This repo is for learning the fundamentals of programmatic audio rendering:
 - Saving rendered WAV files
 - Creating small metadata tables for experiments
 - Building intuition for future audio dataset generation
-
----
 
 ## What This Is Not
 
@@ -41,23 +48,51 @@ This repo does **not** cover:
 
 Those are later-stage topics. This repo focuses on the renderer layer: **parameters + MIDI in, audio out**.
 
----
-
-## Why Pedalboard?
-
-Pedalboard is a Python audio processing library from Spotify. It can process audio with built-in effects and host third-party plugins such as VST3 and Audio Units.
-
-For this repo, the important idea is:
+## Project Layout
 
 ```text
-Python script
-   ↓
-Pedalboard loads Surge XT
-   ↓
-Python sends MIDI notes
-   ↓
-Surge XT renders audio
-   ↓
-Pedalboard / NumPy analyze or process the result
-   ↓
-WAV files and metadata are saved
+.
+├── notebooks/
+│   └── 01_pedalboard_surge_fundamentals.ipynb
+├── scripts/
+│   ├── check_env.py
+│   ├── list_surge_params.py
+│   └── smoke_test_surge.py
+├── src/
+│   └── pedalboard_surge_utils.py
+├── outputs/
+│   ├── renders/
+│   └── analysis/
+├── NOTEBOOK_CHECKS.md
+└── codex_report.md
+```
+
+## Verification
+
+Run the lightweight checks first:
+
+```bash
+tonarpy
+python scripts/check_env.py
+python -m compileall scripts src
+```
+
+Then run the Surge-specific checks:
+
+```bash
+python scripts/list_surge_params.py
+python scripts/smoke_test_surge.py
+```
+
+The full notebook execution command is recorded in `NOTEBOOK_CHECKS.md`.
+
+## Surge XT Path
+
+The helpers check `SURGE_PLUGIN_PATH` first, then the standard macOS locations:
+
+- `/Library/Audio/Plug-Ins/VST3/Surge XT.vst3`
+- `~/Library/Audio/Plug-Ins/VST3/Surge XT.vst3`
+- `/Library/Audio/Plug-Ins/Components/Surge XT.component`
+- `~/Library/Audio/Plug-Ins/Components/Surge XT.component`
+
+Prefer the VST3 instrument when both VST3 and Audio Unit versions are installed.

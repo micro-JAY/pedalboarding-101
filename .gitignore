@@ -2,7 +2,14 @@
 pedalboard_notebook.md
 
 # =========
+.DS_Store
 
+# Tutorial outputs
+notebooks/*.executed.ipynb
+outputs/renders/*
+!outputs/renders/.gitkeep
+outputs/analysis/*
+!outputs/analysis/.gitkeep
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
@@ -221,4 +228,3 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
->>>>>>> origin/main
